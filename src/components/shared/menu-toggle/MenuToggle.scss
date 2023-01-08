@@ -1,0 +1,34 @@
+@use "../../../styles/colors" as *;
+
+.center {
+  width: 30px;
+}
+
+.center:before,
+.center:after,
+.center div {
+  background: $blue;
+  content: "";
+  display: block;
+  height: 4px;
+  border-radius: 3px;
+  margin: 4px 0;
+  transition: 0.5s;
+}
+
+.active::after,
+.active::before {
+  background-color: $heath-500;
+}
+
+.active:before {
+  transform: translateY(8px) rotate(135deg);
+}
+
+.active:after {
+  transform: translateY(-8px) rotate(-135deg);
+}
+
+.active div {
+  transform: scale(0);
+}

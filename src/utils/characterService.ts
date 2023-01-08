@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Character } from "../types/Character";
 import { api } from "./api";
 
@@ -19,13 +18,14 @@ export async function getAllCharacters(limit?: number) {
   return data.data.results as Character[];
 }
 
-export async function getCharacterByName(name: string) {
-  const { data } = await axios.get(
-    `${import.meta.env.BASE_URL}/characters?nameStartsWith=${name}`,
-    {
-      params,
-    }
-  );
+export async function getCharacterByName(name: string, limit?: number) {
+  if (limit) {
+    params["limit"] = limit;
+  }
 
-  return data;
+  const { data } = await api.get(`/characters?nameStartsWith=${name}`, {
+    params,
+  });
+
+  return data.data.results as Character[];
 }

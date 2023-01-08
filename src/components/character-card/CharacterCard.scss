@@ -1,0 +1,16 @@
+@use "../../styles/colors" as color;
+
+.card {
+  overflow: hidden;
+
+  &:hover {
+    img {
+      transform: scale(1.15);
+    }
+  }
+
+  img {
+    transition: all 0.2s cubic-bezier(0.22, 0.66, 0.68, 0.4);
+    height: 100%;
+  }
+}

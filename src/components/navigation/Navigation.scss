@@ -1,0 +1,25 @@
+@use "../../styles/colors" as color;
+@use "../../index.scss" as font;
+
+.navigation {
+  position: fixed;
+  width: 100%;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 1rem 2rem;
+
+  font-family: font.$marvel;
+  font-size: 1.5rem;
+
+  color: color.$blue;
+  background: rgba(color.$blue-700, 0.4);
+
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
+  box-shadow: 0px 4px 15px rgba(color.$woodsmoke-900, 0.5);
+
+  z-index: 2;
+}
