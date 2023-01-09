@@ -1,4 +1,5 @@
 import { Character } from "../types/Character";
+import { Comic } from "../types/Comic";
 import { api } from "./api";
 
 const params = {
@@ -11,6 +12,8 @@ const params = {
 export async function getAllCharacters(limit?: number) {
   if (limit) {
     params["limit"] = limit;
+  } else {
+    params["limit"] = 20;
   }
 
   const { data } = await api.get("/characters", { params });
@@ -21,6 +24,8 @@ export async function getAllCharacters(limit?: number) {
 export async function getCharacterByName(name: string, limit?: number) {
   if (limit) {
     params["limit"] = limit;
+  } else {
+    params["limit"] = 20;
   }
 
   const { data } = await api.get(`/characters?nameStartsWith=${name}`, {
@@ -28,4 +33,32 @@ export async function getCharacterByName(name: string, limit?: number) {
   });
 
   return data.data.results as Character[];
+}
+
+export async function getAllComics(limit?: number) {
+  if (limit) {
+    params["limit"] = limit;
+  } else {
+    params["limit"] = 20;
+  }
+
+  const { data } = await api.get(`/comics`, {
+    params,
+  });
+
+  return data.data.results as Comic[];
+}
+
+export async function getComicsByTitle(title: string, limit?: number) {
+  if (limit) {
+    params["limit"] = limit;
+  } else {
+    params["limit"] = 20;
+  }
+
+  const { data } = await api.get(`/comics?titleStartsWith=${title}`, {
+    params,
+  });
+
+  return data.data.results as Comic[];
 }

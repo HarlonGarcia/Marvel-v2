@@ -1,0 +1,33 @@
+@use "../../../styles/colors" as color;
+@use "../../../styles/breakpoints" as break;
+@use "../../../index.scss" as font;
+
+.loader {
+  padding: 3rem 0;
+}
+
+.loader span {
+  font-family: font.$marvel;
+  font-size: 1.5rem;
+  font-weight: 900;
+  line-height: 20px;
+  letter-spacing: 2px;
+
+  transition: all 0.3s;
+  animation: blur 2s linear infinite;
+
+  @include break.lg {
+    font-size: 1.75rem;
+  }
+}
+
+@keyframes blur {
+  0%,
+  90% {
+    filter: blur(0);
+  }
+
+  50% {
+    filter: blur(4px);
+  }
+}

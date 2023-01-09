@@ -2,6 +2,10 @@
 @use "../../styles/colors" as color;
 @use "../../styles/breakpoints" as break;
 
+.home {
+  overflow-x: hidden;
+}
+
 .home_header {
   position: relative;
   height: 36rem;
@@ -189,8 +193,11 @@
 }
 
 .home_characters {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   position: relative;
-  background-blend-mode: overlay;
   background-image: url(../../assets/images/dark-dot.png);
   padding: 3rem 2rem;
 
@@ -240,7 +247,8 @@
   label {
     font-size: 1.25rem;
     font-family: font.$marvel;
-    color: color.$blue;
+    text-align: center;
+    color: color.$heath;
 
     transition-duration: 500ms;
 
@@ -305,7 +313,14 @@
 
   @include break.sm {
     label {
-      font-size: 1.5rem;
+      font-size: 1.75rem;
+      letter-spacing: 2px;
+    }
+  }
+
+  @include break.lg {
+    label {
+      font-size: 2.25rem;
     }
   }
 }
@@ -322,6 +337,7 @@
   margin-top: 2rem;
 
   > * {
+    box-shadow: 0px 4px 20px rgba(color.$black-200, 0.4);
     grid-column: 1/2;
   }
 
@@ -345,8 +361,12 @@
 
   margin-top: 3rem;
 
+  img {
+    width: 160px;
+  }
+
   h3 {
-    margin-top: 1rem;
+    margin-top: 0.5rem;
     font-weight: 400;
     font-size: 1rem;
     color: color.$blue-500;
@@ -356,8 +376,75 @@
     color: color.$blue;
     font-size: 1.25rem;
   }
+}
 
-  img {
-    width: 160px;
+.deadpool_background {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0.02;
+  filter: grayscale(1);
+  transform: scaleX(-1);
+
+  object-fit: cover;
+}
+
+.home_comics {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+  overflow: hidden;
+
+  padding: 3rem 2rem;
+
+  background: color.$heath-800;
+  background: linear-gradient(
+    90deg,
+    color.$heath-800 0%,
+    color.$heath-400 50%,
+    color.$heath-800 100%
+  );
+
+  > h2 {
+    text-align: center;
+    color: color.$woodsmoke;
+    text-shadow: 0px 4px 2px color.$heath-900;
+    font-size: 1.25rem;
+    font-family: font.$marvel;
+    letter-spacing: 2px;
+  }
+
+  .comic_background {
+    position: absolute;
+    top: 0;
+    left: -20px;
+    z-index: 0;
+
+    min-width: 100%;
+
+    opacity: 0.05;
+    filter: grayscale(100%);
+
+    object-fit: cover;
+  }
+
+  @include break.sm {
+    > h2 {
+      font-size: 1.75rem;
+      text-shadow: 0px 4px 4px color.$heath-900;
+    }
+  }
+
+  @include break.lg {
+    > h2 {
+      font-size: 2.25rem;
+    }
   }
 }

@@ -1,0 +1,61 @@
+@use "../../styles/colors" as color;
+@use "../../styles/breakpoints" as break;
+
+.swiper {
+  position: relative;
+  overflow: visible;
+
+  margin-top: 1rem;
+  width: 90%;
+
+  @include break.sm {
+    width: 80%;
+  }
+}
+
+.swiper_wrapper {
+  width: 100%;
+}
+
+.swiper-slide {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  width: fit-content;
+
+  cursor: grab;
+
+  > img {
+    object-fit: cover;
+    max-width: 100%;
+
+    transition: all 0.2s ease-in-out;
+  }
+
+  .title_container {
+    display: none;
+    background-color: color.$woodsmoke-900;
+    padding: 0.5rem 1rem;
+
+    h3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      font-size: 1rem;
+
+      color: color.$woodsmoke;
+      font-weight: 400;
+    }
+
+    @include break.md {
+      display: block;
+    }
+  }
+
+  &:hover > img {
+    filter: grayscale(0.3) saturate(0.7) contrast(1.3) brightness(1.1);
+  }
+}

@@ -1,6 +1,7 @@
 import "./Home.scss";
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { useQuery } from "react-query";
 
 import video from "../../assets/videos/spiderman.mp4";
 import marvel_logo from "../../assets/images/marvel-logo.png";
@@ -8,12 +9,19 @@ import marvel_banner from "../../assets/images/marvel-snap-banner.png";
 import marvel_snap_logo from "../../assets/images/marvel-snap-logo.png";
 import card from "../../assets/images/card.jpg";
 import not_found from "../../assets/images/404.png";
+import comic_bg from "../../assets/images/comic-book.jpg";
+import deadpool_background from "../../assets/images/deadpool-background.png";
 import { FiDownload } from "react-icons/fi";
 import { IoSearch } from "react-icons/io5";
 
-import { getCharacterByName } from "../../utils/characterService";
-import { Character } from "../../types/Character";
 import CharacterCard from "../../components/character-card/CharacterCard";
+import Carousel from "../../components/carousel/Carousel";
+import {
+  getCharacterByName,
+  getComicsByTitle,
+} from "../../utils/characterService";
+import { Character } from "../../types/Character";
+import Loader from "../../components/shared/loader/Loader";
 
 // TODO https://icons8.com/       FOOTER
 
@@ -22,18 +30,6 @@ const container = {
   visible: {
     opacity: 1,
     scale: 1,
-    transition: {
-      delayChildren: 0.3,
-      staggerChildren: 0.2,
-    },
-  },
-};
-
-const item = {
-  hidden: { y: 20, opacity: 0 },
-  visible: {
-    y: 0,
-    opacity: 1,
   },
 };
 
@@ -45,20 +41,32 @@ const Home = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
+  const { isLoading, isError, isSuccess, data, error } = useQuery(
+    "comics",
+    () => getComicsByTitle("Spider", 10)
+  );
+
   const handleChange = (event: React.SyntheticEvent) => {
-    setResearched(false);
-
     const input = event.target as HTMLInputElement;
-    console.log(input.value);
 
+    setResearched(false);
     setCharacterName(input.value);
   };
 
   const searchCharacter = async () => {
-    const characters = await getCharacterByName(characterName, 3);
+    const characters = await getCharacterByName(characterName, 20);
 
     if (characters.length > 0) {
-      setCharacters(characters);
+      const charactersFiltered = characters.filter((character) => {
+        const imagePath = character.thumbnail.path;
+        const index = -19;
+
+        if (imagePath.slice(index) !== "image_not_available") {
+          return character;
+        }
+      });
+
+      setCharacters(charactersFiltered.slice(0, 3));
     } else {
       setCharacters(null);
     }
@@ -95,7 +103,7 @@ const Home = () => {
         </div>
       </header>
       <main className="home_body">
-        <div className="home_banner">
+        <section className="home_banner">
           <img
             src={marvel_snap_logo}
             alt="Marvel Snap Logo"
@@ -125,9 +133,9 @@ const Home = () => {
             alt="Marvel Snap Banner"
             className="banner_background"
           />
-        </div>
+        </section>
 
-        <div className="home_characters" ref={ref}>
+        <section className="home_characters" ref={ref}>
           <img
             style={{
               transform: isInView ? "none" : "translateX(200px)",
@@ -181,7 +189,27 @@ const Home = () => {
               <span>{characterName}</span>
             </div>
           ) : null}
-        </div>
+          <img
+            src={deadpool_background}
+            alt="Deadpool Movie Scene"
+            className="deadpool_background"
+          />
+        </section>
+        <section className="home_comics">
+          {!isLoading && data && data.length > 3 ? (
+            <>
+              <h2>Marvel Comics</h2>
+              <Carousel comics={data} />
+            </>
+          ) : (
+            <Loader color="#5a1111" />
+          )}
+          <img
+            src={comic_bg}
+            alt="Comic Background"
+            className="comic_background"
+          />
+        </section>
       </main>
     </div>
   );
